@@ -1,0 +1,83 @@
+[h1]This is the public test for Akimbo Pistols. There is no guarantee it will work for you and may cause crashes in some situations. Please read everything below.[/h1]
+
+[i]This addon requires [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3329679071]AlyxLib[/url] to work.[/i]
+
+[h2]How do I get the Akimbo Pistol?[/h2]
+
+For testing convenience the pistol is given to you at the start of every map.
+
+[h2]How do I use the Akimbo Pistol?[/h2]
+
+The following actions work on your secondary hand:
+[list]
+	[*]Menu Interact -> Shoot.
+	[*]Toggle Menu -> Release slide.
+	[*]Toggle Menu -> Press twice to toggle burst fire.
+	[*]Arm Grenade -> Eject magazine.
+	[*]Crouch Toggle -> Unequip/equip akimbo weapon.
+[/list]
+
+Hopefully for most controllers this will be similar to your primary hand. This was tested with Valve Index Knuckles controllers using default bindings.
+
+Crouch toggle was chosen because it's the closest alternative action to the inventory button without causing conflicts with the weapon mechanics. There is not alternative for crouch players at the moment
+If you have a suggestion for a different action please let me know.
+
+[h2]How do I reload with both pistols?[/h2]
+
+Empty pistols can be reloaded by moving them behind your head. Make sure the magazine is ejected first.
+
+You can also manually reload by unequipping the pistols one at a time and inserting a magazine like normal.
+
+[h2]How do I upgrade my Akimbo Pistol?[/h2]
+
+Insert the pistol into the crafting station cradle as normal and choose your upgrade. When upgrade has finished it is important to pick up the akimbo pistol with your secondary hand only. Do not walk far away from the crafting station while an upgrade is in progress.
+
+If an issue occurs during/after an upgrade you can try the console command `akimbo_return_to_hand`.
+
+Changing left handedness while Akimbo weapon is equipped will cause a crash.
+
+[hr][/hr]
+
+[b]Recommended console commands for testing:[/b]
+[list]
+	[*]sv_infinite_clips
+	[*]hlvr_addresources 0 0 0 999
+[/list]
+
+[h2]Console Commands[/h2]
+
+Console commands allow you to customize and tweak the addon while playing. They are not required to use the addon, and for most users the default values will provide a good experience. 
+
+If you don't know how to use the console, follow this guide: https://steamcommunity.com/sharedfiles/filedetails/?id=2040205272
+
+[hr][/hr]
+[list]
+[*][b]akimbo_pistol_grant_upgrade[/b]
+Gives your akimbo pistol an upgrade using one of the following numbers:
+0 - Laser sight
+1 - Reflex slight
+2 - Bullet hopper
+3 - Burst fire
+This will give you a brand new akimbo pistol while retaining your current upgrades, so ammo count might change.
+
+[*][b]akimbo_give_pistol[/b]
+Gives you a new akimbo pistol.
+
+[*][b]akimbo_return_to_hand[/b]
+Re-equips the current akimbo pistol. This can sometimes fix issues when the pistol disappears or is in the wrong hand.
+[/list]
+
+[h2]Known Issues[/h2]
+
+Switching left handedness while the akimbo pistol is equipped will cause a crash.
+
+The akimbo pistol can be grabbed from the crafting station cradle using the primary hand.
+
+Walking far away from the crafting station while an akimbo pistol is inside will cause it to be attached to the primary hand.
+
+[h2]Getting Help[/h2]
+
+Please feel free to reach out either by commenting below or on the Discord server!
+
+[url=https://discord.gg/42SC3Wyjv4][img]https://steamuserimages-a.akamaihd.net/ugc/2397692528302959470/036A75FE4B2E8CD2224F8B62E7CEBEE649493C40/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false[/img][/url]
+

@@ -6,5 +6,11 @@ if IsServer() then
     require("alyxlib.init")
 
     -- execute code or load mod libraries here
-
+    require "akimbo.classes.akimbo_weapon"
+    require "akimbo.classes.akimbo_pistol"
+    require "akimbo.akimbo_controller"
+    require "akimbo.weapon_override"
+    require "akimbo.commands"
+    require "akimbo.debug"
+    require "akimbo.debug_menu"
 end
