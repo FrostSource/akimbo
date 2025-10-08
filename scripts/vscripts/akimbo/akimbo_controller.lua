@@ -82,7 +82,7 @@ end
 ---This is for testing only
 ---@param params PlayerEventVRPlayerReady
 ListenToPlayerEvent("vr_player_ready", function(params)
-    local defaults = require("alyxlib.player.defaults")
+    local defaults = require("akimbo.ammo_defaults")
     local ammo = defaults[GetMapName()]
     if ammo then
         Player:SetItems(ammo.energygun, ammo.shotgun, ammo.rapidfire)
