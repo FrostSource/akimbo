@@ -96,9 +96,11 @@ function base:Equip()
         self:SetParent(nil, nil)
     end
 
-    PlayerData.PauseWeaponStateSync()
+    -- Move weapon to secondary hand for weapon_switch accuracy
+    local offset = PlayerData.GetDefaultWeaponOffset(self:GetClassname(), Player.SecondaryHand)
+    self:SetOrigin(Player.SecondaryHand:TransformPointEntityToWorld(offset))
+
     Player.SecondaryHand:AddHandAttachment(self)
-    PlayerData.ResumeWeaponStateSync()
 
     self:SetRenderingEnabled(true)
 
@@ -108,14 +110,6 @@ function base:Equip()
     end
     CurrentAkimboWeapon = self
     self.isEquipped = true
-
-    -- Needs to be changed to custom event registration later
-    if type(_G.OnAkimboWeaponSwitch) == "function" then
-        _G.OnAkimboWeaponSwitch({
-            weapon = self,
-            equipped = true
-        })
-    end
 end
 
 ---
@@ -142,9 +136,7 @@ function base:Unequip()
         return
     end
 
-    PlayerData.PauseWeaponStateSync()
     Player.SecondaryHand:RemoveHandAttachmentByHandle(self)
-    PlayerData.ResumeWeaponStateSync()
 
     Input:StopListeningByContext(self)
 
@@ -152,14 +144,6 @@ function base:Unequip()
     print("SetRenderingEnabled(false)", self)
     self:SetRenderingEnabled(false)
     self:SetOrigin(Vector(-10000, -10000, -10000)) -- where is a good place?
-
-    -- Needs to be changed to custom event registration later
-    if type(_G.OnAkimboWeaponSwitch) == "function" then
-        _G.OnAkimboWeaponSwitch({
-            weapon = self,
-            equipped = false
-        })
-    end
 end
 
 ---
