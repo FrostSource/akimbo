@@ -34,9 +34,10 @@ end
 
 ---@param event PlayerEventWeaponSwitch
 ListenToPlayerEvent("weapon_switch", function(event)
-    if event.item and not IsAkimboWeaponSwitchEnabled() and isinstance(event.item, "AkimboWeapon") then
+    print(event.item, IsAkimboWeaponSwitchEnabled(), isinstance(event.item, "AkimboWeapon"))
+    -- if event.item and not IsAkimboWeaponSwitchEnabled() and isinstance(event.item, "AkimboWeapon") then
         EnableAkimboWeaponSwitch()
-    end
+    -- end
 
     if CurrentAkimboWeapon and CurrentAkimboWeapon:IsEquipped() then
         -- Override weapon completely when akimbo is equipped
@@ -82,7 +83,6 @@ local function reloadPistol(pistol, clip)
     return true
 end
 
----Allow the player to reload pistols by moving them behind their head
 ---This is for testing only
 ---@param params PlayerEventVRPlayerReady
 ListenToPlayerEvent("vr_player_ready", function(params)
@@ -95,13 +95,17 @@ ListenToPlayerEvent("vr_player_ready", function(params)
     -- Always give the player a pistol for testing
     if GetMapName() ~= "a1_intro_world" and GetMapName() ~= "a1_intro_world_2" then
         if params.type == "spawn" then
-            SendToConsole("akimbo_give_pistol")
+            Player:Delay(function()
+                SendToConsole("akimbo_give_pistol")
+                -- SendToConsole("akimbo_give_smg")
+            end, 0.3) -- needs delay for precache to happen
         end
     end
 
+    ---Allow the player to reload pistols by moving them behind their head
     Player:SetContextThink("HandsFreeReload", function()
         if Player.Items.ammo.energygun > 0 or Convars:GetBool("sv_infinite_clips") then
-            if CurrentAkimboWeapon and CurrentAkimboWeapon:IsEquipped() and checkEntityBehindHead(Player.SecondaryHand) then
+            if isinstance(CurrentAkimboWeapon, "AkimboPistol") and CurrentAkimboWeapon:IsEquipped() and checkEntityBehindHead(Player.SecondaryHand) then
                 if reloadPistol(CurrentAkimboWeapon) then
                     if not Convars:GetBool("sv_infinite_clips") then
                         Player:SetResources(Player.Items.ammo.energygun - 1)

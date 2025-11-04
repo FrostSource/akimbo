@@ -128,7 +128,7 @@ Convars:RegisterCommand("akimbo_debug_weapon_animgraph", function(cmd, pattern)
     end
 
     if ent == nil or not IsValidEntity(ent) then
-        warn("No entity found for pattern: " .. pattern)
+        warn("No entity found for pattern: " .. tostring(pattern))
         return
     end
 
@@ -142,12 +142,12 @@ Convars:RegisterCommand("akimbo_debug_weapon_animgraph", function(cmd, pattern)
 
     currentDebugEnts = {}
 
-    local curr = Player.CurrentlyEquipped
+    local curr = ent:GetClassname()
 
     debugoverlay:PushAndClearDebugOverlayScope("DebugAnimGraph")
 
     if curr == "hlvr_weapon_energygun" then DebugAnimGraph(ent, animgraphParamsPistol)
-    elseif curr == "hlvr_weapon_rapidfire" then DebugAnimGraph(ent, animgraphParamsRapidfire)
+    elseif curr == "hlvr_weapon_rapidfire" then print('rapid') DebugAnimGraph(ent, animgraphParamsRapidfire)
     elseif curr == "hlvr_weapon_shotgun" then
         print(ent:GetClassname())
         DebugAnimGraph(ent, animgraphParamsShotgun)

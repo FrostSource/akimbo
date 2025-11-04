@@ -21,17 +21,14 @@ function UpdateWeaponModelForHand(entity, useLeftHand)
     local model = entity:GetModelName()
     if model == "" then return end
     if model == "models/weapons/vr_alyxgun/vr_alyxgun_bullet.vmdl" then return end
-    -- print(model, entity:GetClassname())
 
     if useLeftHand then
         if not model:match(modifier .. "%.vmdl$") then
             local replaced = model:gsub("%.vmdl$", modifier .. ext)
-            -- print("Updating model to use left hand: ", replaced)
             entity:SetModel(replaced)
         end
     else
         local replaced = model:gsub(modifier .. "%.vmdl$", ext)
-        -- print("Updating model to use right hand: " .. replaced)
         entity:SetModel(replaced)
     end
 end
@@ -78,7 +75,10 @@ function base:HandleAttachToHand()
     self:UpdateModelsForHand(not Convars:GetBool("hlvr_left_hand_primary"))
 
     self.isEquipped = true
-    self:ResumeThink()
+
+    if self.Think then
+        self:ResumeThink()
+    end
 
     self:SetGraphParameterBool("b_IsWorldItem", true)
     self:Delay(function()
@@ -87,9 +87,12 @@ function base:HandleAttachToHand()
 
     self:UpdateInput()
 
-    DoEntFire("akimbo_playerproxy", "SetCanAttackDisable", "", 0, nil, nil)
+    DoEntFire("akimbo_playerproxy", "SetCanAttackDisable", "", 0, self, self)
 end
 
+---
+---Attaches the akimbo weapon to the player's secondary hand.
+---
 function base:Equip()
 
     if self:GetMoveParent() ~= nil then
@@ -104,10 +107,6 @@ function base:Equip()
 
     self:SetRenderingEnabled(true)
 
-    if CurrentAkimboWeapon and CurrentAkimboWeapon ~= self and CurrentAkimboWeapon:IsEquipped() then
-        print("Unequipping other akimbo pistol!")
-        CurrentAkimboWeapon:Unequip()
-    end
     CurrentAkimboWeapon = self
     self.isEquipped = true
 end
@@ -125,12 +124,14 @@ function base:HandleDetachFromHand()
     print("is in crafting station on detach?", self:IsInCraftingStation())
     if self:IsInCraftingStation() then
         self:TurnIntoWorldItem(true)
-        PlayerData.RestorePreviouslyEquippedWeaponState(true)
     end
 
-    DoEntFire("akimbo_playerproxy", "SetCanAttackEnable", "", 0, nil, nil)
+    DoEntFire("akimbo_playerproxy", "SetCanAttackEnable", "", 0, self, self)
 end
 
+---
+---Unequips the akimbo weapon from the player's secondary hand.
+---
 function base:Unequip()
     if not self.isEquipped then
         return
@@ -148,7 +149,8 @@ end
 
 ---
 ---Turns the akimbo weapon into a world item by parenting it to a proxy physics object.
----For situations where the weapon must not be re-parented, set `fixed` to true.
+---
+---For situations where the weapon must not have its parent changed, set `fixed` to true.
 ---
 ---Does not actually remove the akimbo weapon from the player's hand.
 ---
@@ -166,11 +168,9 @@ function base:TurnIntoWorldItem(fixed)
     })
 
     proxy:SetRenderingEnabled(false)
-    -- proxy:SetRenderColor(255, 0, 0)
-    -- proxy:SetAbsScale(2)
     local output = vlua.select(fixed, "OnInteractStart", "OnPlayerUse")
     proxy:RedirectOutputFunc(output, function()
-        print("Player picked up akimbo weapon proxy", output)
+        -- print("Player picked up akimbo weapon proxy", output)
         self:SetParent(nil, nil)
         proxy:Kill()
         self:Equip()
@@ -305,20 +305,6 @@ function base:UpdateInput()
     end, self)
 
 end
-
--- ---@param params GameEventPrimaryHandChanged
--- base:GameEvent("primary_hand_changed", function (self, params)
---     ---@cast self AkimboWeapon
-
---     if self:IsEquipped() then
---         --Should be safe to remove from both hands
---         Player.PrimaryHand:RemoveHandAttachmentByHandle(self)
---         Player.SecondaryHand:RemoveHandAttachmentByHandle(self)
-
---         self:Equip()
---     end
---     self:UpdateModelsForHand(not params.is_primary_left)
--- end)
 
 --Used for classes not attached directly to entities
 return base

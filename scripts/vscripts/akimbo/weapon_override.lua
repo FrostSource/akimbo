@@ -157,9 +157,9 @@ local function overrideRapidfire(weapon, dontListenToFire)
             end
 
             if weapon:GetClassname() == "hlvr_weapon_rapidfire" then
-                weapon:SetGraphParameterBool("b_Shooting", true)
+                weapon:SetGraphParameterBool("b_ShootingAkimbo", true)
                 Input:ListenToButton("release", InputHandPrimary, DIGITAL_INPUT_FIRE, 1, function ()
-                    weapon:SetGraphParameterBool("b_Shooting", false)
+                    weapon:SetGraphParameterBool("b_ShootingAkimbo", false)
                     weapon:SetContextThink("RapidfireShooting", nil, 0)
                     Input:StopListeningByContext("RapidfireShooting")
                 end, "RapidfireShooting")

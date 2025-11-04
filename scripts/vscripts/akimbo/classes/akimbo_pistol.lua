@@ -1,7 +1,7 @@
 if thisEntity then
     -- Inherit this script if attached to entity
     -- Will also load the script at the same time if needed
-    inherit(GetScriptFile())
+    inherit("AkimboPistol")
     return
 end
 

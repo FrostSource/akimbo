@@ -8,7 +8,7 @@
 		[
 			{
 				_class = "CBoolAnimParameter"
-				m_name = "b_Shooting"
+				m_name = "b_ShootingAkimbo"
 				m_id = 
 				{
 					m_id = 376966289
