@@ -2,6 +2,13 @@ local category = "akimbo"
 
 DebugMenu:AddCategory(category, "Akimbo")
 
+DebugMenu:AddSeparator(category, "", "Cheats")
+
+DebugMenu:AddButton(category, "infinite_ammo", "Infinite Ammo", "sv_infinite_ammo")
+DebugMenu:AddButton(category, "infinite_clips", "Infinite Magazines", "sv_infinite_clips")
+
+DebugMenu:AddSeparator(category, "", "Equipment")
+
 DebugMenu:AddButton(category, "give_pistol", "Give Akimbo Pistol", "akimbo_give_pistol")
 
 DebugMenu:AddLabel(category, "pistol_upgrades", "Pistol Upgrades")
