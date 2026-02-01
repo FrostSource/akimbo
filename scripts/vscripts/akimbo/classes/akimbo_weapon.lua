@@ -105,6 +105,8 @@ function base:Equip()
 
     Player.SecondaryHand:AddHandAttachment(self)
 
+    self:SetOwner(Player.SecondaryHand)
+
     self:SetRenderingEnabled(true)
 
     CurrentAkimboWeapon = self
@@ -315,6 +317,22 @@ function base:UpdateInput()
         end
     end, self)
 
+end
+
+---BodyHolsters integration.
+
+---@param hand CPropVRHand
+function base:OnHolsterUnequip(hand)
+    if self:IsEquipped() then
+        self:Unequip(true)
+    end
+end
+
+---@param hand CPropVRHand
+function base:OnHolsterEquip(hand)
+    if not self:IsEquipped() then
+        self:Equip()
+    end
 end
 
 --Used for classes not attached directly to entities

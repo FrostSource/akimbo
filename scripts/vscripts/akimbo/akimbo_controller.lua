@@ -102,6 +102,18 @@ ListenToPlayerEvent("vr_player_ready", function(params)
         end
     end
 
+    ---BodyHolsters integration.
+    if IsAddonEnabled("body_holsters")
+    or IsAddonEnabled("3144612716") -- public workshop
+    or IsAddonEnabled("3328458773") -- test workshop
+    then
+---@diagnostic disable: undefined-global
+        if BodyHolsters then
+            BodyHolsters:EnableDualWieldMode()
+        end
+---@diagnostic enable: undefined-global
+    end
+
     ---Allow the player to reload pistols by moving them behind their head
     Player:SetContextThink("HandsFreeReload", function()
         if Player.Items.ammo.energygun > 0 or Convars:GetBool("sv_infinite_clips") then
