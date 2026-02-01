@@ -132,7 +132,8 @@ end
 ---
 ---Unequips the akimbo weapon from the player's secondary hand.
 ---
-function base:Unequip()
+---@param dontMove? boolean # If `true`, the akimbo weapon will not be moved far away
+function base:Unequip(dontMove)
     if not self.isEquipped then
         return
     end
@@ -142,9 +143,11 @@ function base:Unequip()
     Input:StopListeningByContext(self)
 
     self.isEquipped = false
-    print("SetRenderingEnabled(false)", self)
     self:SetRenderingEnabled(false)
-    self:SetOrigin(Vector(-10000, -10000, -10000)) -- where is a good place?
+
+    if not dontMove then
+        self:SetOrigin(Vector(-10000, -10000, -10000)) -- where is a good place?
+    end
 end
 
 ---
