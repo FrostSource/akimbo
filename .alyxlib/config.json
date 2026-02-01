@@ -5,5 +5,9 @@
   "GitInstalled": true,
   "ModFolderName": "akimbo",
   "Version": "2.0.0",
-  "EditorType": 1
+  "EditorType": "VisualStudioCode",
+  "FileRemovalGlobs": [
+    "maps/**/test*",
+    "save/"
+  ]
 }
