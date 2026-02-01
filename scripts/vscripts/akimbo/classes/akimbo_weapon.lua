@@ -121,7 +121,6 @@ function base:HandleDetachFromHand()
 
     Input:StopListeningByContext(self)
 
-    print("is in crafting station on detach?", self:IsInCraftingStation())
     if self:IsInCraftingStation() then
         self:TurnIntoWorldItem(true)
     end
@@ -274,7 +273,6 @@ function base:OnSpawn(spawnkeys)
         SpawnEntityFromTableSynchronous("logic_playerproxy", {
             targetname = "akimbo_playerproxy"
         })
-        print(Entities:FindByName(nil, "akimbo_playerproxy"))
     end
 
     self:EnableAttachmentLogic()
@@ -297,6 +295,16 @@ function base:DisableAttachmentLogic()
     self:DisconnectRedirectedOutput("OnDetachedFromHand", "HandleDetachFromHand", self)
 end
 
+---
+---Updates the akimbo weapon's input.
+---
+---This should be overridden by child classes.
+---
+---If the shooting logic does not need to be changed,
+---use the following line at the top of your overridden function:
+---
+---    AkimboWeapon.UpdateInput(self)
+---
 function base:UpdateInput()
     Input:StopListeningByContext(self)
 

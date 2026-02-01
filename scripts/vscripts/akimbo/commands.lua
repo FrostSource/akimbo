@@ -164,7 +164,7 @@ for weaponType, cfg in pairs(AkimboWeaponConfigs) do
         local newAkimboWeapon = CreateAkimboWeapon(cfg.baseName, cfg.entityClass, cfg.scriptPath)
 
         if CurrentAkimboWeapon and CurrentAkimboWeapon:IsEquipped() then
-            print("Unequipping other akimbo pistol!", entstr(CurrentAkimboWeapon))
+            devprint("Unequipping other akimbo pistol!", entstr(CurrentAkimboWeapon))
             PlayerData.PauseWeaponStateSync()
             CurrentAkimboWeapon:Unequip()
             CurrentAkimboWeapon:Kill()

@@ -82,7 +82,7 @@ local function overrideEnergygun(weapon, dontListenToFire)
     ListenToGunButton(DIGITAL_INPUT_EJECT_MAGAZINE, weapon, function ()
 
         -- print("Pressing eject")
-        print(weapon, weapon ~= nil and weapon:GetClassname() or "none")
+        -- print(weapon, weapon ~= nil and weapon:GetClassname() or "none")
         if weapon and weapon:GetClassname() == "hlvr_weapon_energygun" then
             weapon:SetGraphParameterBool('b_ReloadPressedAkimbo', true)
         end

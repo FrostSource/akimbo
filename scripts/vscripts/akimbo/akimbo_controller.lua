@@ -34,7 +34,7 @@ end
 
 ---@param event PlayerEventWeaponSwitch
 ListenToPlayerEvent("weapon_switch", function(event)
-    print(event.item, IsAkimboWeaponSwitchEnabled(), isinstance(event.item, "AkimboWeapon"))
+    -- print(event.item, IsAkimboWeaponSwitchEnabled(), isinstance(event.item, "AkimboWeapon"))
     -- if event.item and not IsAkimboWeaponSwitchEnabled() and isinstance(event.item, "AkimboWeapon") then
         EnableAkimboWeaponSwitch()
     -- end
