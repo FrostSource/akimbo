@@ -13,7 +13,7 @@ end
 ---@class AkimboRapidfire : AkimboWeapon
 local base = entity("AkimboRapidfire", "AkimboWeapon")
 
-GlobalPrecache("entity", "hlvr_weapon_rapidfire", {})
+GlobalPrecache:Add("entity", "hlvr_weapon_rapidfire", {})
 -- GlobalPrecache("model_folder", "models/weapons/vr_ipistol")
 -- GlobalPrecache("model", "models/weapons/vr_ipistol/vr_ipistol.vmdl")
 -- GlobalPrecache("model", "models/weapons/vr_ipistol/vr_ipistol_lhand.vmdl")

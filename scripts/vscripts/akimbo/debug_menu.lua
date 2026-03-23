@@ -4,8 +4,8 @@ DebugMenu:AddCategory(category, "Akimbo")
 
 DebugMenu:AddSeparator(category, "", "Cheats")
 
-DebugMenu:AddButton(category, "infinite_ammo", "Infinite Ammo", "sv_infinite_ammo")
-DebugMenu:AddButton(category, "infinite_clips", "Infinite Magazines", "sv_infinite_clips")
+DebugMenu:AddToggle(category, "infinite_ammo", "Infinite Ammo", "sv_infinite_ammo")
+DebugMenu:AddToggle(category, "infinite_clips", "Infinite Magazines", "sv_infinite_clips")
 
 DebugMenu:AddSeparator(category, "", "Equipment")
 

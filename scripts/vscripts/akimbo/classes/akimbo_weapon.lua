@@ -65,8 +65,12 @@ base.__readyShootTime = 0
 function base:OnReady(readyType)
     if readyType ~= READY_NORMAL then
         if self:IsEquipped() then
-            self:Unequip()
-            self:Equip()
+            -- self:Unequip()
+            -- self:Equip()
+            print("Setting current akimbo weapon")
+            CurrentAkimboWeapon = self
+            print(CurrentAkimboWeapon)
+            self:HandleAttachToHand()
         end
     end
 end
@@ -86,6 +90,7 @@ function base:HandleAttachToHand()
     end, 0.1)
 
     self:UpdateInput()
+    AkimboController:HandleAkimboEquip()
 
     DoEntFire("akimbo_playerproxy", "SetCanAttackDisable", "", 0, self, self)
 end
@@ -126,6 +131,8 @@ function base:HandleDetachFromHand()
     if self:IsInCraftingStation() then
         self:TurnIntoWorldItem(true)
     end
+
+    AkimboController:HandleAkimboUnequip()
 
     DoEntFire("akimbo_playerproxy", "SetCanAttackEnable", "", 0, self, self)
 end

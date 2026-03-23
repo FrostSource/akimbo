@@ -6,13 +6,15 @@ local weaponOverride = require("akimbo.weapon_override")
 
 local akimboWeaponSwitchId = -1
 
-function DisableAkimboWeaponSwitch()
+AkimboController = {}
+
+function AkimboController:DisableAkimboWeaponSwitch()
     Input:StopListening(akimboWeaponSwitchId)
     akimboWeaponSwitchId = -1
 end
 
-function EnableAkimboWeaponSwitch()
-    DisableAkimboWeaponSwitch()
+function AkimboController:EnableAkimboWeaponSwitch()
+    self:DisableAkimboWeaponSwitch()
 
     ---This handles equipping/unequipping the akimbo weapon
     ---I don't know of any good way to do this
@@ -28,27 +30,90 @@ function EnableAkimboWeaponSwitch()
     end)
 end
 
-function IsAkimboWeaponSwitchEnabled()
+function AkimboController:IsAkimboWeaponSwitchEnabled()
     return akimboWeaponSwitchId ~= -1
+end
+
+function AkimboController:IsAkimboWeaponEquipped()
+    if IsValidEntity(CurrentAkimboWeapon) then
+        return CurrentAkimboWeapon:IsEquipped()
+    end
+
+    for _, weapon in ipairs(Entities:FindAllByClassname("hlvr_weapon_energygun")) do
+        if isinstance(weapon, "AkimboWeapon") then
+            ---@cast weapon AkimboWeapon
+            if weapon:IsEquipped() then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+-- ---comment
+-- ---@param event PlayerEventItemPickup
+-- ListenToPlayerEvent("item_pickup", function(event)
+--     if type(event) == "table" and event.item and isinstance(event.item, "AkimboWeapon") then
+--         CurrentAkimboWeapon = event.item
+
+--     end
+-- end)
+
+---@param event PlayerEventPlayerActivate
+ListenToPlayerEvent("vr_player_ready", function(event)
+    Player:Delay(function()
+        if event.type ~= "spawn" and AkimboController:IsAkimboWeaponEquipped() then
+            print("CurrentAkimboWeapon", CurrentAkimboWeapon)
+            print("Player.CurrentlyEquipped", Player.CurrentlyEquipped)
+            AkimboController:HandleAkimboEquip()
+        end
+    end, 0.2)
+end)
+
+function AkimboController:HandleAkimboEquip()
+    print("Override base weapon")
+    weaponOverride.overrideWeapon(Player:GetWeapon())
+end
+
+function AkimboController:HandleAkimboUnequip()
+    print(Player.CurrentlyEquipped)
+    if Player.CurrentlyEquipped == "hlvr_weapon_energygun" then
+        -- Only override the modified pistol mechanics when akimbo is not equipped
+        -- This is needed because animgraph is modified
+        print("Override base weapon for pistol")
+        weaponOverride.overrideWeapon(Player:GetWeapon(), true)
+    else
+        -- Disable overrides when akimbo is not equipped
+        print("Disable overriding")
+        weaponOverride.overrideWeapon(nil)
+    end
 end
 
 ---@param event PlayerEventWeaponSwitch
 ListenToPlayerEvent("weapon_switch", function(event)
     -- print(event.item, IsAkimboWeaponSwitchEnabled(), isinstance(event.item, "AkimboWeapon"))
     -- if event.item and not IsAkimboWeaponSwitchEnabled() and isinstance(event.item, "AkimboWeapon") then
-        EnableAkimboWeaponSwitch()
+        AkimboController:EnableAkimboWeaponSwitch()
     -- end
 
+    -- Has to be done on weapon switch to handle base weapons being equipped
     if CurrentAkimboWeapon and CurrentAkimboWeapon:IsEquipped() then
         -- Override weapon completely when akimbo is equipped
-        weaponOverride.overrideWeapon(Player:GetWeapon())
-    elseif Player.CurrentlyEquipped == "hlvr_weapon_energygun" then
-        -- Only override the modified pistol mechanics when akimbo is not equipped
-        weaponOverride.overrideWeapon(Player:GetWeapon(), true)
+        AkimboController:HandleAkimboEquip()
     else
-        -- Disable overrides when akimbo is not equipped
-        weaponOverride.overrideWeapon(nil)
+        AkimboController:HandleAkimboUnequip()
     end
+    -- elseif Player.CurrentlyEquipped == "hlvr_weapon_energygun" then
+    --     -- Only override the modified pistol mechanics when akimbo is not equipped
+    --     -- This is needed because animgraph is modified
+    --     print("Override base weapon for pistol")
+    --     weaponOverride.overrideWeapon(Player:GetWeapon(), true)
+    -- else
+    --     -- Disable overrides when akimbo is not equipped
+    --     print("Disable overriding")
+    --     weaponOverride.overrideWeapon(nil)
+    -- end
 end)
 
 local function checkEntityBehindHead(entity)
