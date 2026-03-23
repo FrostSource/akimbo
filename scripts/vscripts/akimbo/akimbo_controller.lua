@@ -70,15 +70,6 @@ function AkimboController:IsAkimboWeaponEquipped()
     return false
 end
 
--- ---comment
--- ---@param event PlayerEventItemPickup
--- ListenToPlayerEvent("item_pickup", function(event)
---     if type(event) == "table" and event.item and isinstance(event.item, "AkimboWeapon") then
---         CurrentAkimboWeapon = event.item
-
---     end
--- end)
-
 ---@param event PlayerEventPlayerActivate
 ListenToPlayerEvent("vr_player_ready", function(event)
     Player:Delay(function()
@@ -93,38 +84,29 @@ ListenToPlayerEvent("vr_player_ready", function(event)
 
         -- Pretend we equipped the akimbo weapon to apply the overrides if we start with it equipped
         if event.type ~= "spawn" and AkimboController:IsAkimboWeaponEquipped() then
-            print("CurrentAkimboWeapon", CurrentAkimboWeapon)
-            print("Player.CurrentlyEquipped", Player.CurrentlyEquipped)
             AkimboController:HandleAkimboEquip()
         end
     end, 0.2)
 end)
 
 function AkimboController:HandleAkimboEquip()
-    print("Override base weapon")
     weaponOverride.overrideWeapon(Player:GetWeapon())
 end
 
 function AkimboController:HandleAkimboUnequip()
-    print(Player.CurrentlyEquipped)
     if Player.CurrentlyEquipped == "hlvr_weapon_energygun" then
         -- Only override the modified pistol mechanics when akimbo is not equipped
         -- This is needed because animgraph is modified
-        print("Override base weapon for pistol")
         weaponOverride.overrideWeapon(Player:GetWeapon(), true)
     else
         -- Disable overrides when akimbo is not equipped
-        print("Disable overriding")
         weaponOverride.overrideWeapon(nil)
     end
 end
 
 ---@param event PlayerEventWeaponSwitch
 ListenToPlayerEvent("weapon_switch", function(event)
-    -- print(event.item, IsAkimboWeaponSwitchEnabled(), isinstance(event.item, "AkimboWeapon"))
-    -- if event.item and not IsAkimboWeaponSwitchEnabled() and isinstance(event.item, "AkimboWeapon") then
-        AkimboController:EnableAkimboWeaponSwitch()
-    -- end
+    AkimboController:EnableAkimboWeaponSwitch()
 
     -- Has to be done on weapon switch to handle base weapons being equipped
     if AkimboController:IsAkimboWeaponEquipped() then
@@ -133,16 +115,6 @@ ListenToPlayerEvent("weapon_switch", function(event)
     else
         AkimboController:HandleAkimboUnequip()
     end
-    -- elseif Player.CurrentlyEquipped == "hlvr_weapon_energygun" then
-    --     -- Only override the modified pistol mechanics when akimbo is not equipped
-    --     -- This is needed because animgraph is modified
-    --     print("Override base weapon for pistol")
-    --     weaponOverride.overrideWeapon(Player:GetWeapon(), true)
-    -- else
-    --     -- Disable overrides when akimbo is not equipped
-    --     print("Disable overriding")
-    --     weaponOverride.overrideWeapon(nil)
-    -- end
 end)
 
 local function checkEntityBehindHead(entity)

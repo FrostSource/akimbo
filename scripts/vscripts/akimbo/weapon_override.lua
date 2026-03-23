@@ -184,7 +184,7 @@ end
 local function overrideWeapon(weapon, dontListenToFire)
     Input:StopListeningByContext(ManualPlayerWeaponInteractionContext)
 
-    print("override weapon check", weapon)
+    -- print("override weapon check", weapon)
     if IsValidEntity(currentWeaponListener) then
         currentWeaponListener:UnregisterAnimTagListener()
     end

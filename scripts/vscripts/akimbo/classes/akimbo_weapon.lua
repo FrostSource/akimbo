@@ -65,11 +65,7 @@ base.__readyShootTime = 0
 function base:OnReady(readyType)
     if readyType ~= READY_NORMAL then
         if self:IsEquipped() then
-            -- self:Unequip()
-            -- self:Equip()
-            print("Setting current akimbo weapon")
             CurrentAkimboWeapon = self
-            print(CurrentAkimboWeapon)
             self:HandleAttachToHand()
         end
     end
