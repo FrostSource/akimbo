@@ -30,6 +30,25 @@ function AkimboController:EnableAkimboWeaponSwitch()
     end)
 end
 
+---
+---Sets the internal akimbo weapon in the player inventory.
+---Does not actually attach it to the player hand.
+---
+---@param weapon AkimboWeapon
+function AkimboController:SetAkimboWeapon(weapon)
+    if not IsValidEntity(weapon) then
+        warn("Invalid weapon passed to SetAkimboWeapon")
+        return
+    end
+
+    if IsValidEntity(CurrentAkimboWeapon) and CurrentAkimboWeapon ~= weapon then
+        CurrentAkimboWeapon:DeleteAttribute("InPlayerInventory")
+    end
+
+    CurrentAkimboWeapon = weapon
+    CurrentAkimboWeapon:Attribute_SetIntValue("InPlayerInventory", 1)
+end
+
 function AkimboController:IsAkimboWeaponSwitchEnabled()
     return akimboWeaponSwitchId ~= -1
 end
@@ -63,6 +82,16 @@ end
 ---@param event PlayerEventPlayerActivate
 ListenToPlayerEvent("vr_player_ready", function(event)
     Player:Delay(function()
+        for _, weapon in ipairs(Entities:FindAllByClassname("hlvr_weapon_energygun")) do
+            if isinstance(weapon, "AkimboWeapon") then
+                ---@cast weapon AkimboWeapon
+                if weapon:IsEquipped() or weapon:HasAttribute("InPlayerInventory") then
+                    AkimboController:SetAkimboWeapon(weapon)
+                end
+            end
+        end
+
+        -- Pretend we equipped the akimbo weapon to apply the overrides if we start with it equipped
         if event.type ~= "spawn" and AkimboController:IsAkimboWeaponEquipped() then
             print("CurrentAkimboWeapon", CurrentAkimboWeapon)
             print("Player.CurrentlyEquipped", Player.CurrentlyEquipped)
@@ -98,7 +127,7 @@ ListenToPlayerEvent("weapon_switch", function(event)
     -- end
 
     -- Has to be done on weapon switch to handle base weapons being equipped
-    if CurrentAkimboWeapon and CurrentAkimboWeapon:IsEquipped() then
+    if AkimboController:IsAkimboWeaponEquipped() then
         -- Override weapon completely when akimbo is equipped
         AkimboController:HandleAkimboEquip()
     else

@@ -114,7 +114,7 @@ function base:Equip()
 
     self:SetRenderingEnabled(true)
 
-    CurrentAkimboWeapon = self
+    AkimboController:SetAkimboWeapon(self)
     self.isEquipped = true
 end
 
