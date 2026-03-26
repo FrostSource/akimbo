@@ -12,6 +12,7 @@ if IsServer() then
     require "akimbo.akimbo_controller"
     require "akimbo.weapon_override"
     require "akimbo.commands"
+    require "akimbo.convars"
     require "akimbo.debug"
     require "akimbo.debug_menu"
 end

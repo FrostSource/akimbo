@@ -185,6 +185,10 @@ ListenToPlayerEvent("vr_player_ready", function(params)
 
     ---Allow the player to reload pistols by moving them behind their head
     Player:SetContextThink("HandsFreeReload", function()
+        if not Convars:GetBool("akimbo_reload_behind_head") then
+            return 1.0
+        end
+
         if Player.Items.ammo.energygun > 0 or Convars:GetBool("sv_infinite_clips") then
             if isinstance(CurrentAkimboWeapon, "AkimboPistol") and CurrentAkimboWeapon:IsEquipped() and checkEntityBehindHead(Player.SecondaryHand) then
                 if reloadPistol(CurrentAkimboWeapon) then
