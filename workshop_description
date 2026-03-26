@@ -26,6 +26,8 @@ If you have a suggestion for a different action please let me know.
 
 Empty pistols can be reloaded by moving them behind your head. Make sure the magazine is ejected first.
 
+If a magazine is not being inserted, make sure you have ejected the current magazine. If you have just started a new campaign map and haven't picked up any ammo, the game might not recognize the ammo you start with, unfortunately this is a known bug.
+
 You can also manually reload by unequipping the pistols one at a time and inserting a magazine like normal.
 
 [h2]How do I upgrade my Akimbo Pistol?[/h2]
@@ -65,6 +67,10 @@ Gives you a new akimbo pistol.
 
 [*][b]akimbo_return_to_hand[/b]
 Re-equips the current akimbo pistol. This can sometimes fix issues when the pistol disappears or is in the wrong hand.
+
+[*][b]akimbo_reload_behind_head[/b]
+Default: 1
+Allows auto reloading an empty weapon by putting it behind your head.
 [/list]
 
 [h2]Known Issues[/h2]
@@ -74,6 +80,8 @@ Switching left handedness while the akimbo pistol is equipped will cause a crash
 The akimbo pistol can be grabbed from the crafting station cradle using the primary hand.
 
 Walking far away from the crafting station while an akimbo pistol is inside will cause it to be attached to the primary hand.
+
+Map starting ammo is not recognized and will not trigger a behind-the-head reload. No known way to get player starting ammo.
 
 [h2]Getting Help[/h2]
 
