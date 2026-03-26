@@ -7,6 +7,9 @@ DebugMenu:AddSeparator(category, "", "Cheats")
 DebugMenu:AddToggle(category, "infinite_ammo", "Infinite Ammo", "sv_infinite_ammo")
 DebugMenu:AddToggle(category, "infinite_clips", "Infinite Magazines", "sv_infinite_clips")
 
+DebugMenu:AddSeparator(category, "", "Debug")
+DebugMenu:AddButton(category, "return_to_hand", "Return Akimbo Weapon to Hand", "akimbo_return_to_hand")
+
 DebugMenu:AddSeparator(category, "", "Equipment")
 
 DebugMenu:AddButton(category, "give_pistol", "Give Akimbo Pistol", "akimbo_give_pistol")
