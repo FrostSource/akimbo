@@ -91,6 +91,7 @@ end)
 
 function AkimboController:HandleAkimboEquip()
     weaponOverride.overrideWeapon(Player:GetWeapon())
+    weaponOverride.setPlayerCanAttack(false)
 end
 
 function AkimboController:HandleAkimboUnequip()
@@ -102,6 +103,8 @@ function AkimboController:HandleAkimboUnequip()
         -- Disable overrides when akimbo is not equipped
         weaponOverride.overrideWeapon(nil)
     end
+
+    weaponOverride.setPlayerCanAttack(true)
 end
 
 ---@param event PlayerEventWeaponSwitch

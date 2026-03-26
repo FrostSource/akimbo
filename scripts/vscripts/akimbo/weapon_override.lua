@@ -8,6 +8,18 @@ local playerLastShootTime = 0
 ---@type EntityHandle
 local currentWeaponListener = nil
 
+---Sets if the player can shoot their base weapon.
+---@param canAttack boolean
+local function setPlayerCanAttack(canAttack)
+    if not Entities:FindByName(nil, "akimbo_playerproxy") then
+        SpawnEntityFromTableSynchronous("logic_playerproxy", {
+            targetname = "akimbo_playerproxy"
+        })
+    end
+
+    DoEntFire("akimbo_playerproxy", canAttack and "SetCanAttackEnable" or "SetCanAttackDisable", "", 0, nil, nil)
+end
+
 ---@param action DigitalInputAction
 ---@param weapon EntityHandle
 ---@param callback function
@@ -208,5 +220,6 @@ local function overrideWeapon(weapon, dontListenToFire)
 end
 
 return {
-    overrideWeapon = overrideWeapon
+    overrideWeapon = overrideWeapon,
+    setPlayerCanAttack = setPlayerCanAttack,
 }

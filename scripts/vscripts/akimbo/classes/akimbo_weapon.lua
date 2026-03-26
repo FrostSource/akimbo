@@ -87,8 +87,6 @@ function base:HandleAttachToHand()
 
     self:UpdateInput()
     AkimboController:HandleAkimboEquip()
-
-    DoEntFire("akimbo_playerproxy", "SetCanAttackDisable", "", 0, self, self)
 end
 
 ---
@@ -129,8 +127,6 @@ function base:HandleDetachFromHand()
     end
 
     AkimboController:HandleAkimboUnequip()
-
-    DoEntFire("akimbo_playerproxy", "SetCanAttackEnable", "", 0, self, self)
 end
 
 ---
@@ -274,12 +270,6 @@ end
 ---Called automatically on spawn
 ---@param spawnkeys CScriptKeyValues
 function base:OnSpawn(spawnkeys)
-    if not Entities:FindByName(nil, "akimbo_playerproxy") then
-        SpawnEntityFromTableSynchronous("logic_playerproxy", {
-            targetname = "akimbo_playerproxy"
-        })
-    end
-
     self:EnableAttachmentLogic()
 end
 
